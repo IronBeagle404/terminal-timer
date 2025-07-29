@@ -7,7 +7,6 @@ I mainly did this as some sort of basic exercise, to see how long it would take 
 ### I plan to add the following things :
 - comments in the code
 - an ASCII drawing of the timer
-- countdown from specified time to 0, rather than the other way around
 - some actual beeping sound when the timer reaches the end
 
 ### Requirements
