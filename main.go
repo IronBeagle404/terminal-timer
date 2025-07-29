@@ -47,6 +47,7 @@ func main() {
 
 	totalTimerValue := seconds + minutes*60 + hours*60*60
 
+	fmt.Printf("%02d:%02d:%02d\n", hours, minutes, seconds)
 	for x := totalTimerValue; x > 0; x-- {
 		seconds--
 
