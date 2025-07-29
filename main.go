@@ -47,18 +47,17 @@ func main() {
 
 	totalTimerValue := seconds + minutes*60 + hours*60*60
 
-	seconds, minutes, hours = 0, 0, 0
+	for x := totalTimerValue; x > 0; x-- {
+		seconds--
 
-	for x := 0; x < totalTimerValue; x++ {
-		seconds++
-
-		if seconds == 60 {
-			minutes++
-			seconds = 0
+		if seconds < 0 {
+			minutes--
+			seconds = 59
 		}
-		if minutes == 60 {
-			hours++
-			minutes = 0
+
+		if minutes < 0 {
+			hours--
+			minutes = 59
 		}
 
 		time.Sleep(1 * time.Second)
