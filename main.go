@@ -1,11 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/ebitengine/oto/v3"
+	"github.com/hajimehoshi/go-mp3"
 )
 
 func main() {
@@ -65,8 +69,61 @@ func main() {
 		fmt.Printf("%02d:%02d:%02d\n", hours, minutes, seconds)
 	}
 
-	for {
-		fmt.Printf("BEEP BEEP BEEP\n")
-		time.Sleep(1 * time.Second)
+	fmt.Println("BEEP BEEP BEEP")
+	Beep()
+}
+
+func Beep() {
+	// Read the mp3 file
+	fileBytes, err := os.ReadFile("./beep.mp3")
+	if err != nil {
+		panic("Failed to read beep.mp3 : " + err.Error())
+	}
+
+	// Convert bytes to reader object to use with mp3 decoder
+	fileBytesReader := bytes.NewReader(fileBytes)
+
+	// Decode file
+	decodedMp3, err := mp3.NewDecoder(fileBytesReader)
+	if err != nil {
+		panic("mp3.NewDecoder failed : " + err.Error())
+	}
+
+	// Setup Oto context options
+	op := &oto.NewContextOptions{}
+
+	// Default recommended value
+	op.SampleRate = 44100
+
+	// 2 channels for Stereo
+	op.ChannelCount = 2
+
+	// Source format corresponding to go-mp3's format, signed 16bit integers
+	op.Format = oto.FormatSignedInt16LE
+
+	// Create Oto context with the defined options
+	otoCtx, readyChan, err := oto.NewContext(op)
+	if err != nil {
+		panic("oto.NewContext failed : " + err.Error())
+	}
+
+	// wait for the channel
+	<-readyChan
+
+	// Create a new player, paused by default
+	player := otoCtx.NewPlayer(decodedMp3)
+
+	// Start playing the sound, returning without waiting for it (async)
+	player.Play()
+
+	// Wait for the sound to finish playing
+	for player.IsPlaying() {
+		time.Sleep(time.Millisecond)
+	}
+
+	// Close the sound
+	err = player.Close()
+	if err != nil {
+		panic("player.Close failed : " + err.Error())
 	}
 }
