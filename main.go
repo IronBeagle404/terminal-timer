@@ -86,7 +86,9 @@ func main() {
 
 	// Print message and play beeping sound with the defined oto context
 	fmt.Println("BEEP BEEP BEEP")
-	Beep(otoCtx)
+	for {
+		Beep(otoCtx)
+	}
 }
 
 func Beep(otoCtx *oto.Context) {
