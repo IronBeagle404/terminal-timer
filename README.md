@@ -5,7 +5,6 @@ This is a very simple Go program that runs a timer in a terminal.
 I mainly did this as some sort of basic exercise, to see how long it would take me to build something more or less functionning. 
 
 ### I plan to add the following things :
-- comments in the code
 - an ASCII drawing of the timer
 
 ### Requirements
