@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	ascii "github.com/IronBeagle404/ascii-art"
 	"github.com/ebitengine/oto/v3"
 	"github.com/hajimehoshi/go-mp3"
 )
@@ -48,10 +49,11 @@ func main() {
 	}
 
 	fmt.Printf("You have set a timer for %d hour(s), %d minute(s), and %d second(s)\n", hours, minutes, seconds)
+	time.Sleep(time.Second)
 
 	// Make a simple countdown from input time in seconds to 0
 	totalTimerValue := seconds + minutes*60 + hours*60*60
-	fmt.Printf("%02d:%02d:%02d\n", hours, minutes, seconds)
+	fmt.Println(ascii.RenderASCIIToString(fmt.Sprintf("%02d:%02d:%02d\n", hours, minutes, seconds)))
 	for x := totalTimerValue; x > 0; x-- {
 		seconds--
 
@@ -66,7 +68,8 @@ func main() {
 		}
 
 		time.Sleep(1 * time.Second)
-		fmt.Printf("%02d:%02d:%02d\n", hours, minutes, seconds)
+
+		fmt.Println(ascii.RenderASCIIToString(fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)))
 	}
 
 	// Setup Oto context options
@@ -85,7 +88,7 @@ func main() {
 	<-readyChan
 
 	// Print message and play beeping sound with the defined oto context
-	fmt.Println("BEEP BEEP BEEP")
+	fmt.Println(ascii.RenderASCIIToString("BEEP BEEP BEEP"))
 	for {
 		Beep(otoCtx)
 	}
