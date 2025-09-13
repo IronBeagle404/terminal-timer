@@ -87,8 +87,7 @@ func main() {
 	// wait for the channel
 	<-readyChan
 
-	// Print message and play beeping sound with the defined oto context
-	fmt.Println(ascii.RenderASCIIToString("BEEP BEEP BEEP"))
+	// Play beeping sound with the defined oto context
 	for {
 		Beep(otoCtx)
 	}
